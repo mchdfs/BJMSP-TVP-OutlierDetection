@@ -1,12 +1,12 @@
 library(mgcv)
 
-# Adapted from Albers & Bringmann Supplementary, 2020
+# Adapted from Albers&Bringmann, 2020
 # Current mgcv version 1.9-1
 
 nullModel_gam<-function(Data,Var,VarL){
   tt=1:dim(Data)[1]
   N=dim(Data)[1]
-  model0 <- gam(Var ~ s(tt) + VarL,data=Data)
+  model0 <- gam(Var ~ s(tt) + VarL, data=Data, method = "REML")
   
   AIC0<- model0$aic
   BIC0<- BIC(model0)
@@ -26,7 +26,7 @@ CPModel_gam<-function(Data,Var,VarL){
   for(i in 1:N){
     D <- c(rep(0,i),rep(1,N-i)) 
     
-    model1=gam(Var ~ s(tt) + D + VarL,data=Data)
+    model1=gam(Var ~ s(tt) + D + VarL,data=Data, method = "REML")
     
     AIC1[i] <- model1$aic
     BIC1[i] <- BIC(model1)
